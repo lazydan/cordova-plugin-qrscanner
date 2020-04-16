@@ -30,7 +30,7 @@ function convertStatus(statusDictionary) {
   };
 }
 
-var oldBackGround = {};
+var oldBackGround;
 
 // Simple utility method to ensure the background is transparent. Used by the
 // plugin to force re-rendering immediately after the native webview background
@@ -38,6 +38,7 @@ var oldBackGround = {};
 function clearBackground() {
   var body = document.body;
   if (body.style) {
+    oldBackGround = {};
     oldBackGround.backgroundColor = body.style.backgroundColor;
     oldBackGround.backgroundImage = body.style.backgroundImage;
       
@@ -57,14 +58,14 @@ function clearBackground() {
 }
 function resumeBackground() {
   var body = document.body;
-  if (body.style && oldBackGround.backgroundColor !== undefined) {
+  if (body.style && oldBackGround !== undefined) {
     body.style.backgroundColor = oldBackGround.backgroundColor;
     body.style.backgroundImage = oldBackGround.backgroundImage;
     if (body.parentNode && body.parentNode.style) {
       body.parentNode.style.backgroundColor = oldBackGround.pBackgroundColor;
       body.parentNode.style.backgroundImage = oldBackGround.pBackgroundImage;
     }
-    oldBackGround = {};
+    oldBackGround = undefined;
   }
 }
 
